@@ -11,8 +11,6 @@ phases:
   build:
     commands:
       - dotnet publish -c release -o ./build_output AspNetCoreWebService/AspNetCoreWebService.csproj
-      #- dotnet publish -c release -o ./test_output AspNetCoreWebServiceTest/AspNetCoreWebServiceTest.csproj
-      #- dotnet vstest AspNetCoreWebServiceTest/bin/release/netcoreapp3.1/AspNetCoreWebServiceTest.dll
       - dotnet test -c release AspNetCoreWebServiceTest/AspNetCoreWebServiceTest.csproj --logger trx --results-directory ./testresults
   post_build:
     commands:
