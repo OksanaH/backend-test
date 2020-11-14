@@ -7,16 +7,26 @@ phases:
     commands:
       - dotnet restore AspNetCoreWebService/AspNetCoreWebService.csproj
       - dotnet restore AspNetCoreWebServiceTest/AspNetCoreWebServiceTest.csproj
+      
   build:
     commands:
       - dotnet publish -c release -o ./build_output AspNetCoreWebService/AspNetCoreWebService.csproj
-      - dotnet publish -c release -o ./test_output AspNetCoreWebServiceTest/AspNetCoreWebServiceTest.csproj
-      - dotnet vstest AspNetCoreWebServiceTest/bin/release/netcoreapp3.1/AspNetCoreWebServiceTest.dll
+      #- dotnet publish -c release -o ./test_output AspNetCoreWebServiceTest/AspNetCoreWebServiceTest.csproj
+      #- dotnet vstest AspNetCoreWebServiceTest/bin/release/netcoreapp3.1/AspNetCoreWebServiceTest.dll
+      dotnet test -c release ./test_output AspNetCoreWebServiceTest/AspNetCoreWebServiceTest.csproj --logger trx --result-directory ./testresults
   post_build:
     commands:
       # Do not remove this statement. This command is required for AWS CodeStar projects.
       # Update the AWS Partition, AWS Region, account ID and project ID in the project ARN in template-configuration.json file so AWS CloudFormation can tag project resources.
       - sed -i.bak 's/\$PARTITION\$/'${PARTITION}'/g;s/\$AWS_REGION\$/'${AWS_REGION}'/g;s/\$ACCOUNT_ID\$/'${ACCOUNT_ID}'/g;s/\$PROJECT_ID\$/'${PROJECT_ID}'/g' template-configuration.json
+
+reports
+  XUnitTestResults
+    file-format-visualStudioTrx
+    files:
+      - '**/*'
+    base-directory: './test-results'
+    
 artifacts:
   files:
     - template.yml
@@ -25,3 +35,5 @@ artifacts:
     - appspec.yml
     - requirements.txt
     - template-configuration.json
+
+
