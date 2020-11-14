@@ -26,7 +26,7 @@ reports
     file-format-visualStudioTrx
     files:
       - '**/*'
-    base-directory: './test-results'
+    base-directory: './testresults'
     
 artifacts:
   files:
