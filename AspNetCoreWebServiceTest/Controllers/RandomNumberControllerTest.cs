@@ -28,7 +28,7 @@ namespace AspNetCoreWebServiceTest.Controllers
         {
             RandomNumberController controller = new RandomNumberController(randomNumberProvider);
             var response = controller.Get() as OkObjectResult;
-            Assert.Equal(200, response.StatusCode);
+            Assert.Equal(400, response.StatusCode);
         }
     }
 }
